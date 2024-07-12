@@ -13,7 +13,7 @@ public class instrMod : interactMod
         shown = !shown;
         instr_panel.SetActive(shown);
     }
-    public override void too_far()
+    protected override void too_far()
     {
         if (shown)
             interact();

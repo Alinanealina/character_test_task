@@ -1,27 +1,39 @@
+using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class interactMod : MonoBehaviour
 {
-    protected charControl cc = null;
-    public virtual void interact() {}
+    [NonSerialized] protected charControl cc = null;
+    protected charHP chp;
+    private Text obj_e_text;
+    private void Start()
+    {
+        obj_e_text = GameObject.Find("text_E").GetComponent<Text>();
+    }
+    public void show_dead_msg()
+    {
+        obj_e_text.text = "Dead.";
+    }
+    
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
-            cc = other.gameObject.GetComponent<charControl>();
+        if ((cc = other.gameObject.GetComponent<charControl>()) != null)
+        {
+            obj_e_text.text = "Press \"E\"\nto interact";
+            chp = cc.GetComponent<charHP>();
+        }
     }
     protected void OnTriggerExit(Collider other)
     {
         if (other.gameObject.GetComponent<charControl>() == cc)
+        {
             cc = null;
-    }
-    protected int change_hp(int hp)
-    {
-        if (hp < charControl.hp_min)
-            return charControl.hp_min;
-        else if (hp > charControl.hp_max)
-            return charControl.hp_max;
-        return hp;
+            obj_e_text.text = "";
+            too_far();
+        }
     }
 
-    public virtual void too_far() {}
+    public virtual void interact() {}
+    protected virtual void too_far() {}
 }

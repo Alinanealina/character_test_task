@@ -1,82 +1,61 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class charControl : MonoBehaviour
 {
-    private CharacterController cc;
-    private interactMod inter_mod;
-    [SerializeField] private GameObject e_text;
-    [SerializeField] private Text text_health;
+    private CharacterController controller;
     private float speed = 0.1f;
-    [NonSerialized] public const int hp_min = 0, hp_max = 10;
-    [NonSerialized] public int hp = 5;
-    private bool dead = false;
-    private interactMod int_mod = null;
+    private interactMod inter_mod = null;
+    public event Action on_dead;
 
     private void Start()
     {
-        cc = GetComponent<CharacterController>();
-        text_health.text = "Health: " + hp;
+        controller = GetComponent<CharacterController>();
     }
 
     void FixedUpdate()
     {
-        if (dead)
-            return;
-        hp_check();
-        text_health.text = "Health: " + hp;
-        cc.Move(new Vector3(Input.GetAxis("Horizontal"), 0, 0) * speed);
-        cc.Move(new Vector3(0, 0, Input.GetAxis("Vertical")) * speed);
+        controller.Move(new Vector3(Input.GetAxis("Horizontal"), 0, 0) * speed);
+        controller.Move(new Vector3(0, 0, Input.GetAxis("Vertical")) * speed);
     }
-    private void hp_check()
+
+    private IEnumerator interaction()
     {
-        if (hp == 0)
-        {
-            dead = true;
-            e_text.SetActive(true);
-            e_text.GetComponent<Text>().text = "Dead"; 
-        }
-    }
-    private void int_reset()
-    {
-        int_mod = null;
-        e_text.SetActive(false);
-    }
-    
-    private IEnumerator interuction()
-    {
-        while (int_mod != null)
+        while (inter_mod != null)
         {
             if (Input.GetKeyUp(KeyCode.E))
             {
-                int_mod.interact();
-                int_reset();
+                inter_mod.interact();
+                inter_mod = null;
             }
             yield return null;
         }
     }
-
     private void OnTriggerEnter(Collider other)
     {
         OnTriggerStay(other);
     }
     private void OnTriggerStay(Collider other)
     {
-        if ((int_mod == null) && other.gameObject.CompareTag("Interactable"))
+        if ((inter_mod == null) && ((inter_mod = other.gameObject.GetComponent<interactMod>()) != null))
         {
-            int_mod = other.gameObject.GetComponent<interactMod>();
-            e_text.SetActive(true);
-            StartCoroutine(interuction());
+            on_dead += inter_mod.show_dead_msg;
+            StartCoroutine(interaction());
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Interactable"))
+        if (other.gameObject.GetComponent<interactMod>() == inter_mod)
         {
-            int_mod.too_far();
-            int_reset();
+            on_dead -= inter_mod.show_dead_msg;
+            inter_mod = null;
         }
+    }
+
+    public void dead()
+    {
+        on_dead?.Invoke();
+        inter_mod = null;
     }
 }

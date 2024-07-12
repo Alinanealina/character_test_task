@@ -836,7 +836,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &852442152
 RectTransform:
   m_ObjectHideFlags: 0
@@ -889,9 +889,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Press "E"
-
-    to interact'
+  m_Text: 
 --- !u!222 &852442154
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1682,8 +1680,9 @@ GameObject:
   - component: {fileID: 1557076130}
   - component: {fileID: 1557076132}
   - component: {fileID: 1557076131}
+  - component: {fileID: 1557076133}
   m_Layer: 5
-  m_Name: text_health
+  m_Name: text_hp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1750,6 +1749,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1557076129}
   m_CullTransparentMesh: 1
+--- !u!114 &1557076133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557076129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ff34ed051937744990ea2766ffda99e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chp: {fileID: 1835598762}
 --- !u!1 &1670053977
 GameObject:
   m_ObjectHideFlags: 0
@@ -1864,11 +1876,12 @@ GameObject:
   - component: {fileID: 1835598758}
   - component: {fileID: 1835598757}
   - component: {fileID: 1835598756}
-  - component: {fileID: 1835598760}
   - component: {fileID: 1835598761}
+  - component: {fileID: 1835598760}
+  - component: {fileID: 1835598762}
   m_Layer: 0
   m_Name: char
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1971,8 +1984,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90ea65945f461354a9d610fb2a4c0403, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  e_text: {fileID: 852442151}
-  text_health: {fileID: 1557076131}
 --- !u!143 &1835598761
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1999,6 +2010,20 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1835598762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1835598755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33890e485f1b5d9488a6f9bd055d4254, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cc: {fileID: 1835598760}
+  text_hp: {fileID: 1557076131}
 --- !u!1001 &1916867384
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -4,8 +4,8 @@ public class healthMod : interactMod
 {
     public override void interact()
     {
-        cc.hp = change_hp(cc.hp + 3);
-        gameObject.SetActive(false);
+        chp.add_hp(3);
         OnTriggerExit(cc.GetComponent<Collider>());
+        gameObject.SetActive(false);
     }
 }
